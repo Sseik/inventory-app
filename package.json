@@ -1,0 +1,33 @@
+{
+  "type": "module",
+  "name": "inventory-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon --envfile-if-exists=.env app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sseik/inventory-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sseik/inventory-app/issues"
+  },
+  "homepage": "https://github.com/Sseik/inventory-app#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.6.0",
+    "globals": "^17.7.0",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.9.4"
+  },
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "pg": "^8.22.0"
+  }
+}
