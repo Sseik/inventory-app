@@ -1,0 +1,17 @@
+<section>
+  <h2><%= name %></h2>
+  <ul>
+    <% shownCategories.forEach((category) => { %>
+    <li><%= category.name %></li>
+    <% }); %>
+  </ul>
+  <div class="pages">
+    <% for (let page = 1; page <= pages; page++) { %> 
+      <% const queryCopy = {...query}; %> 
+      <% queryCopy[name[0].toLowerCase() + name.slice(1) + "Page"] = page %>
+      <a
+        href="/?<%= Object.keys(queryCopy).reduce((str, key) => str + `&${key}=${queryCopy[key]}`, '').slice(1) %>"
+      ><%= page %></a>
+    <% } %>
+  </div>
+</section>

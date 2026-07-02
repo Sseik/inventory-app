@@ -7,6 +7,8 @@ const app = express();
 
 app.use(express.urlencoded());
 app.use(express.static(path.join(import.meta.dirname, "public")));
+app.set("views", "./views");
+app.set("view engine", "ejs");
 
 app.use("/", indexRouter);
 
