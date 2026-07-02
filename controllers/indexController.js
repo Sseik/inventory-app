@@ -26,3 +26,15 @@ export async function getCategories(req, res) {
     authorsPages: Math.ceil(authors.length / SHOWN_AUTHORS)
   });
 }
+
+export async function getBooks(req, res) {
+  const { authorId } = req.query;
+
+  const books = await itemsStorage.getBooks({ authorId });
+  const shownBooks = books; // I'll slice array later
+
+  res.render("books", {
+    title: `Books`,
+    shownBooks
+  });
+}

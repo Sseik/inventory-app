@@ -2,7 +2,11 @@
   <h2><%= name %></h2>
   <ul>
     <% shownCategories.forEach((category) => { %>
-    <li><%= category.name %></li>
+    <li>
+      <a 
+        href="/books?<%= name[0].toLowerCase() + name.slice(1, -1) + "Id" %>=<%= category.id %>"
+      ><%= category.name %></a>
+    </li>
     <% }); %>
   </ul>
   <div class="pages">

@@ -13,8 +13,27 @@ class ItemsStorage {
     return rows;
   }
 
-  async getBooks() {
-    const { rows } = await this.pool.query("SELECT * FROM books;");
+  async getBooks({ authorId, genreId }) {
+    if (!authorId && !genreId) {
+      const { rows } = await this.pool.query("SELECT * FROM books;");
+      return rows;
+    }
+
+    const { rows } = await this.pool.query(
+      `
+        SELECT * FROM books
+        WHERE EXISTS(
+          SELECT * FROM book_authors
+          WHERE book_id = books.id
+          AND author_id = $1
+        ) OR EXISTS (
+            SELECT * FROM book_genres
+            WHERE book_id = books.id
+            AND genre_id = $2
+        );
+      `,
+      [authorId, genreId]
+    );
 
     return rows;
   }
@@ -23,7 +42,7 @@ class ItemsStorage {
     const { rows } = await this.pool.query("SELECT * FROM publishers;");
 
     return rows;
-  } 
+  }
 
   async getGenres() {
     const { rows } = await this.pool.query("SELECT * FROM genres;");
