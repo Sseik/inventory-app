@@ -13,7 +13,7 @@ class ItemsStorage {
     return rows;
   }
 
-  async getBooks({ authorId, genreId }) {
+  async getBooks({ authorId, genreId, publisherId }) {
     if (!authorId && !genreId) {
       const { rows } = await this.pool.query("SELECT * FROM books;");
       return rows;
@@ -30,9 +30,9 @@ class ItemsStorage {
             SELECT * FROM book_genres
             WHERE book_id = books.id
             AND genre_id = $2
-        );
+        ) OR publisher_id = $3;
       `,
-      [authorId, genreId]
+      [authorId, genreId, publisherId]
     );
 
     return rows;
@@ -90,6 +90,15 @@ class ItemsStorage {
         WHERE books.id = $1;
       `,
       [bookId]
+    );
+
+    return rows[0];
+  }
+
+  async getBook(id) {
+    const { rows } = await this.pool.query(
+      "SELECT * FROM books WHERE id = $1",
+      [id]
     );
 
     return rows[0];

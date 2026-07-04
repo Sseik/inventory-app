@@ -1,4 +1,6 @@
-<div class="book">
-  <img src="<%= book.image_url %>" alt="Book's cover" />
-  <div class="title"><%= book.name %></div>
-</div>
+<a href="/book/<%= book.id %>">
+  <div class="book">
+    <img src="<%= book.image_url %>" alt="Book's cover" />
+    <div class="title"><%= book.name %></div>
+  </div>
+</a>

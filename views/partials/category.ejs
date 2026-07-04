@@ -3,7 +3,7 @@
   <% let categoryUnit = name[0].toLowerCase() + name.slice(1, -1) %>
   <% let queryStr = Object.keys(query).reduce((str, key) => str + `&${key}=${query[key]}`, '').slice(1); %>
   <a href="/?<%= queryStr %>&show<%= categoryUnit[0].toUpperCase() + categoryUnit.slice(1) %>Form=true">
-    Add an <%= categoryUnit %>
+    Add <%= categoryUnit %>
   </a>
   <ul>
     <% shownCategories.forEach((category) => { %>
