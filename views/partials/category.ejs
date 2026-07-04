@@ -1,10 +1,15 @@
 <section>
   <h2><%= name %></h2>
+  <% let categoryUnit = name[0].toLowerCase() + name.slice(1, -1) %>
+  <% let queryStr = Object.keys(query).reduce((str, key) => str + `&${key}=${query[key]}`, '').slice(1); %>
+  <a href="/?<%= queryStr %>&show<%= categoryUnit[0].toUpperCase() + categoryUnit.slice(1) %>Form=true">
+    Add an <%= categoryUnit %>
+  </a>
   <ul>
     <% shownCategories.forEach((category) => { %>
     <li>
       <a 
-        href="/books?<%= name[0].toLowerCase() + name.slice(1, -1) + "Id" %>=<%= category.id %>"
+        href="/books?<%= categoryUnit + "Id" %>=<%= category.id %>"
       ><%= category.name %></a>
     </li>
     <% }); %>
@@ -12,7 +17,7 @@
   <div class="pages">
     <% for (let page = 1; page <= pages; page++) { %> 
       <% const queryCopy = {...query}; %> 
-      <% queryCopy[name[0].toLowerCase() + name.slice(1) + "Page"] = page %>
+      <% queryCopy[categoryUnit+ "sPage"] = page %>
       <a
         href="/?<%= Object.keys(queryCopy).reduce((str, key) => str + `&${key}=${queryCopy[key]}`, '').slice(1) %>"
       ><%= page %></a>

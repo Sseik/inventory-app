@@ -1,5 +1,7 @@
 import { Client } from "pg";
 
+// I should point out that book.year is a year of the edition publishment.
+// I didn't check the validity of the inserted data though.
 const SQL = `
   DROP TABLE IF EXISTS authors CASCADE;
   DROP TABLE IF EXISTS publishers CASCADE;
@@ -47,7 +49,8 @@ const SQL = `
   );
 
   INSERT INTO authors (name)
-  VALUES ('Andrzej Sapkowski');
+  VALUES ('Andrzej Sapkowski'),
+         ('Agatha Christie');
 
   INSERT INTO publishers (name)
   VALUES ('KSD');
@@ -71,16 +74,37 @@ const SQL = `
     'https://static.yakaboo.ua/media/cloudflare/product/webp/352x340/9/7/9781399611398.jpg',
     10,
     1
+  ), (
+    'The Mysterious Affair at Styles',
+    2023,
+    'The Mysterious Affair at Styles is the first mystery novel by ' ||
+    'British writer Agatha Christie, introducing her fictional detective ' ||
+    'Hercule Poirot. It was written in the middle of the First World War, ' ||
+    'in 1916, and first published by John Lane in the United States in ' ||
+    'October 1920 and in the United Kingdom by The Bodley Head (John ' ||
+    'Lane''s UK company) on 21 January 1921.\\n' ||
+    'Styles introduced Poirot, Inspector (later, Chief Inspector) Japp, ' ||
+    'and Arthur Hastings. Poirot, a Belgian refugee of the Great War, ' ||
+    'is settling in England near the home of Emily Inglethorp, who helped ' ||
+    'him to his new life. His friend Hastings arrives as a guest at her ' ||
+    'home. When Mrs Inglethorp is murdered, Poirot uses his detective skills ' ||
+    'to solve the mystery.',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/American_cover_of_%C2%ABThe_Mysterious_Affair_at_Styles%C2%BB.png/500px-American_cover_of_%C2%ABThe_Mysterious_Affair_at_Styles%C2%BB.png',
+    2,
+    1
   );
 
   INSERT INTO genres (name)
-  VALUES ('Fantasy');
+  VALUES ('Fantasy'),
+         ('Crime Fiction');
 
   INSERT INTO book_authors
-  VALUES (1, 1);
+  VALUES (1, 1),
+         (2, 2);
 
   INSERT INTO book_genres
-  VALUES (1, 1);
+  VALUES (1, 1),
+         (2, 2);
 `;
 
 const connectionString = process.argv.at(-1);
@@ -90,8 +114,16 @@ async function main() {
     connectionString
   }).connect();
 
-  await client.query(SQL);
-  await client.end();
+  try {
+    await client.query("BEGIN");
+    await client.query(SQL);
+    await client.query("COMMIT");
+  } catch (err) {
+    await client.query("ROLLBACK");
+    throw err;
+  } finally {
+    await client.end();
+  }
 }
 
 main();

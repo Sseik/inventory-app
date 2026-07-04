@@ -94,6 +94,10 @@ class ItemsStorage {
 
     return rows[0];
   }
+
+  async addAuthor(name) {
+    await this.pool.query("INSERT INTO authors (name) VALUES ($1)", [name]);
+  }
 }
 
 export default new ItemsStorage();

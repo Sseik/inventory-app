@@ -5,5 +5,6 @@ const indexRouter = Router();
 
 indexRouter.get("/", indexController.getCategories);
 indexRouter.get("/books", indexController.getBooks);
+indexRouter.post("/add-author", indexController.addAuthor);
 
 export default indexRouter;

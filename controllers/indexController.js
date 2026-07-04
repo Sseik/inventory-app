@@ -38,3 +38,15 @@ export async function getBooks(req, res) {
     shownBooks
   });
 }
+
+export async function addAuthor(req, res) {
+  await itemsStorage.addAuthor(req.body.name);
+
+  const queryCopy = { ...req.query };
+
+  delete queryCopy.showAuthorForm;
+  const queryStr = Object.keys(queryCopy)
+    .reduce((str, key) => str + `&${key}=${queryCopy[key]}`, "")
+    .slice(1);
+  res.redirect(`/?${queryStr}`);
+}

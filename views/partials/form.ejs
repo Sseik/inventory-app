@@ -1,0 +1,14 @@
+<% let queryStr = Object.keys(query).reduce((str, key) => str + `&${key}=${query[key]}`, '').slice(1); %>
+<form action="/add-<%= name %>?<%= queryStr %>" method="post">
+  <% fields.forEach((field) => { %>
+  <label for="<%= field.name %>">
+    <%= field.name[0].toUpperCase() + field.name.slice(1) %>
+  </label>
+  <input
+    type="<%= field.type %>"
+    name="<%= field.name %>"
+    id="<%= field.name %>"
+  />
+  <% }); %>
+  <button type="submit">Add</button>
+</form>
