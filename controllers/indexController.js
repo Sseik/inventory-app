@@ -132,6 +132,7 @@ export async function updateAuthor(req, res) {
   const queryCopy = { ...req.query };
 
   delete queryCopy.showAuthorEditForm;
+  delete queryCopy.id;
   const queryStr = Object.keys(queryCopy)
     .reduce((str, key) => str + `&${key}=${queryCopy[key]}`, "")
     .slice(1);
@@ -147,6 +148,7 @@ export async function updateGenre(req, res) {
   const queryCopy = { ...req.query };
 
   delete queryCopy.showGenreEditForm;
+  delete queryCopy.id;
   const queryStr = Object.keys(queryCopy)
     .reduce((str, key) => str + `&${key}=${queryCopy[key]}`, "")
     .slice(1);
@@ -162,6 +164,7 @@ export async function updatePublisher(req, res) {
   const queryCopy = { ...req.query };
 
   delete queryCopy.showPublisherEditForm;
+  delete queryCopy.id;
   const queryStr = Object.keys(queryCopy)
     .reduce((str, key) => str + `&${key}=${queryCopy[key]}`, "")
     .slice(1);
