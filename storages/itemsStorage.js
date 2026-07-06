@@ -14,7 +14,7 @@ class ItemsStorage {
   }
 
   async getBooks({ authorId, genreId, publisherId }) {
-    if (!authorId && !genreId) {
+    if (!authorId && !genreId && !publisherId) {
       const { rows } = await this.pool.query("SELECT * FROM books;");
       return rows;
     }
@@ -106,6 +106,59 @@ class ItemsStorage {
 
   async addAuthor(name) {
     await this.pool.query("INSERT INTO authors (name) VALUES ($1)", [name]);
+  }
+
+  async addGenre(name) {
+    await this.pool.query("INSERT INTO genres (name) VALUES ($1)", [name]);
+  }
+
+  async addPublisher(name) {
+    await this.pool.query("INSERT INTO publishers (name) VALUES ($1)", [name]);
+  }
+
+  async deleteAuthor(id) {
+    await this.pool.query("DELETE FROM authors WHERE id = $1", [id]);
+  }
+
+  async deleteGenre(id) {
+    await this.pool.query("DELETE FROM genres WHERE id = $1", [id]);
+  }
+
+  async deletePublisher(id) {
+    await this.pool.query("DELETE FROM publishers WHERE id = $1", [id]);
+  }
+
+  async updateAuthor(id, name) {
+    await this.pool.query(
+      `
+        UPDATE authors
+        SET name = $1
+        WHERE id = $2
+      `,
+      [name, id]
+    );
+  }  
+
+  async updateGenre(id, name) {
+    await this.pool.query(
+      `
+        UPDATE genres
+        SET name = $1
+        WHERE id = $2
+      `,
+      [name, id]
+    );
+  }
+
+  async updatePublisher(id, name) {
+    await this.pool.query(
+      `
+        UPDATE publishers
+        SET name = $1
+        WHERE id = $2
+      `,
+      [name, id]
+    );
   }
 }
 

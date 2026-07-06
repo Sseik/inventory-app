@@ -67,6 +67,30 @@ export async function addAuthor(req, res) {
   res.redirect(`/?${queryStr}`);
 }
 
+export async function addGenre(req, res) {
+  await itemsStorage.addGenre(req.body.name);
+
+  const queryCopy = { ...req.query };
+
+  delete queryCopy.showGenreForm;
+  const queryStr = Object.keys(queryCopy)
+    .reduce((str, key) => str + `&${key}=${queryCopy[key]}`, "")
+    .slice(1);
+  res.redirect(`/?${queryStr}`);
+}
+
+export async function addPublisher(req, res) {
+  await itemsStorage.addPublisher(req.body.name);
+
+  const queryCopy = { ...req.query };
+
+  delete queryCopy.showPublisherForm;
+  const queryStr = Object.keys(queryCopy)
+    .reduce((str, key) => str + `&${key}=${queryCopy[key]}`, "")
+    .slice(1);
+  res.redirect(`/?${queryStr}`);
+}
+
 export async function getBook(req, res) {
   const { id } = req.params;
   const book = await itemsStorage.getBook(id);
@@ -79,4 +103,67 @@ export async function getBook(req, res) {
     publisher,
     genres
   });
+}
+
+export async function deleteAuthor(req, res) {
+  const { id } = req.params;
+  await itemsStorage.deleteAuthor(id);
+  res.redirect(req.get("Referrer") || "/");
+}
+
+export async function deleteGenre(req, res) {
+  const { id } = req.params;
+  await itemsStorage.deleteGenre(id);
+  res.redirect(req.get("Referrer") || "/");
+}
+
+export async function deletePublisher(req, res) {
+  const { id } = req.params;
+  await itemsStorage.deletePublisher(id);
+  res.redirect(req.get("Referrer") || "/");
+}
+
+export async function updateAuthor(req, res) {
+  const { id } = req.query;
+  const { name } = req.body;
+
+  await itemsStorage.updateAuthor(id, name);
+
+  const queryCopy = { ...req.query };
+
+  delete queryCopy.showAuthorEditForm;
+  const queryStr = Object.keys(queryCopy)
+    .reduce((str, key) => str + `&${key}=${queryCopy[key]}`, "")
+    .slice(1);
+  res.redirect(`/?${queryStr}`);
+}
+
+export async function updateGenre(req, res) {
+  const { id } = req.query;
+  const { name } = req.body;
+
+  await itemsStorage.updateGenre(id, name);
+
+  const queryCopy = { ...req.query };
+
+  delete queryCopy.showGenreEditForm;
+  const queryStr = Object.keys(queryCopy)
+    .reduce((str, key) => str + `&${key}=${queryCopy[key]}`, "")
+    .slice(1);
+  res.redirect(`/?${queryStr}`);
+}
+
+export async function updatePublisher(req, res) {
+  const { id } = req.query;
+  const { name } = req.body;
+
+  await itemsStorage.updatePublisher(id, name);
+
+  const queryCopy = { ...req.query };
+
+  delete queryCopy.showPublisherEditForm;
+  const queryStr = Object.keys(queryCopy)
+    .reduce((str, key) => str + `&${key}=${queryCopy[key]}`, "")
+    .slice(1);
+  res.redirect(`/?${queryStr}`);
 }

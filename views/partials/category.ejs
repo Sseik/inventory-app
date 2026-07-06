@@ -1,8 +1,9 @@
 <section>
   <h2><%= name %></h2>
-  <% let categoryUnit = name[0].toLowerCase() + name.slice(1, -1) %>
-  <% let queryStr = Object.keys(query).reduce((str, key) => str + `&${key}=${query[key]}`, '').slice(1); %>
-  <a href="/?<%= queryStr %>&show<%= categoryUnit[0].toUpperCase() + categoryUnit.slice(1) %>Form=true">
+  <% const categoryUnit = name[0].toLowerCase() + name.slice(1, -1) %>
+  <% const queryStr = Object.keys(query).reduce((str, key) => str + `&${key}=${query[key]}`, '').slice(1); %>
+  <% const capitalizedCategoryUnit = categoryUnit[0].toUpperCase() + categoryUnit.slice(1); %>
+  <a href="/?<%= queryStr %>&show<%= capitalizedCategoryUnit %>Form=true">
     Add <%= categoryUnit %>
   </a>
   <ul>
@@ -11,6 +12,8 @@
       <a 
         href="/books?<%= categoryUnit + "Id" %>=<%= category.id %>"
       ><%= category.name %></a>
+      <a href="/delete/<%= categoryUnit %>/<%= category.id %>">🗑</a>
+      <a href="/?<%= queryStr %>&id=<%= category.id %>&show<%= capitalizedCategoryUnit %>EditForm=true">✎</a>
     </li>
     <% }); %>
   </ul>

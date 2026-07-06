@@ -6,6 +6,7 @@
     <title><%= book.name %></title>
   </head>
   <body>
+    <%- include("partials/header", { title: "Books Inventory" }) %>
     <div class="title"><%= book.name %></div>
     <img src="<%= book.image_url %>" alt="<%= book.name %>'s cover" />
     <section class="details">
@@ -30,6 +31,10 @@
         <% }}); %>
       </div>
     </section>
-    <section class="description"><%= book.description %></section>
+    <section class="description">
+      <% book.description.split("\n").forEach((p) => { %>
+        <p><%= p %></p>
+      <% }); %>
+    </section>
   </body>
 </html>

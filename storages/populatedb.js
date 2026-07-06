@@ -1,6 +1,6 @@
 import { Client } from "pg";
 
-// I should point out that book.year is a year of the edition publishment.
+// I should point out that book.year is a year of the edition publication.
 // I didn't check the validity of the inserted data though.
 const SQL = `
   DROP TABLE IF EXISTS authors CASCADE;
@@ -27,13 +27,13 @@ const SQL = `
     description TEXT,
     image_url TEXT,
     quantity INTEGER CHECK (quantity >= 0),
-    publisher_id INTEGER REFERENCES publishers(id) NOT NULL,
+    publisher_id INTEGER NOT NULL REFERENCES publishers(id) ON DELETE CASCADE,
     UNIQUE (name, year, publisher_id)
   );
 
   CREATE TABLE book_authors(
-    book_id INTEGER REFERENCES books(id) NOT NULL,
-    author_id INTEGER REFERENCES authors(id) NOT NULL,
+    book_id INTEGER NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+    author_id INTEGER NOT NULL REFERENCES authors(id) ON DELETE CASCADE,
     PRIMARY KEY(book_id, author_id)
   );
 
@@ -43,8 +43,8 @@ const SQL = `
   );
 
   CREATE TABLE book_genres(
-    book_id INTEGER REFERENCES books(id) NOT NULL,
-    genre_id INTEGER REFERENCES genres(id) NOT NULL,
+    book_id INTEGER NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+    genre_id INTEGER NOT NULL REFERENCES genres(id) ON DELETE CASCADE,
     PRIMARY KEY(book_id, genre_id)
   );
 
@@ -82,7 +82,7 @@ const SQL = `
     'Hercule Poirot. It was written in the middle of the First World War, ' ||
     'in 1916, and first published by John Lane in the United States in ' ||
     'October 1920 and in the United Kingdom by The Bodley Head (John ' ||
-    'Lane''s UK company) on 21 January 1921.\\n' ||
+    'Lane''s UK company) on 21 January 1921.' || CHR(10) ||
     'Styles introduced Poirot, Inspector (later, Chief Inspector) Japp, ' ||
     'and Arthur Hastings. Poirot, a Belgian refugee of the Great War, ' ||
     'is settling in England near the home of Emily Inglethorp, who helped ' ||

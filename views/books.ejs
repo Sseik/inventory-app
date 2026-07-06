@@ -6,7 +6,8 @@
     <title><%= title %></title>
   </head>
   <body>
-    <h1><%= title %></h1>
+    <%- include("partials/header", { title: "Books Inventory" }) %>
+    <h2><%= title %></h2>
     <section class="books">
       <% shownBooks.forEach((book) => { %>
         <%- include("partials/book", { book }) %>

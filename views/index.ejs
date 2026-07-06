@@ -6,7 +6,7 @@
     <title><%= title %></title>
   </head>
   <body>
-    <header><h1><%= title %></h1></header>
+    <%- include("partials/header") %>
     <%- include("partials/category", {
           name: "Authors",
           shownCategories: shownAuthors,
@@ -17,6 +17,17 @@
 
     <% if (query.showAuthorForm) { %>
       <%- include("partials/form", {
+        action: "add",
+        name: "author",
+        fields: [
+          {name: "name", type: "text"}
+        ]
+      }) %>
+    <% } %>
+
+    <% if (query.showAuthorEditForm) { %>
+      <%- include("partials/form", {
+        action: "update",
         name: "author",
         fields: [
           {name: "name", type: "text"}
@@ -34,6 +45,18 @@
 
     <% if (query.showGenreForm) { %>
       <%- include("partials/form", {
+        action: "add",
+        name: "genre",
+        fields: [
+          {name: "name", type: "text"}
+        ]
+      })
+      %>
+    <% } %>
+
+    <% if (query.showGenreEditForm) { %>
+      <%- include("partials/form", {
+        action: "update",
         name: "genre",
         fields: [
           {name: "name", type: "text"}
@@ -43,6 +66,7 @@
     <% } %>
 
     <%- include("partials/category", {
+      action: "add",
       name: "Publishers",
       shownCategories: shownPublishers,
       pages: publishersPages,
@@ -52,6 +76,18 @@
 
     <% if (query.showPublisherForm) { %>
       <%- include("partials/form", {
+        action: "add",
+        name: "publisher",
+        fields: [
+          {name: "name", type: "text"}
+        ]
+      })
+      %>
+    <% } %>
+
+    <% if (query.showPublisherEditForm) { %>
+      <%- include("partials/form", {
+        action: "update",
         name: "publisher",
         fields: [
           {name: "name", type: "text"}

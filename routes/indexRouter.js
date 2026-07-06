@@ -6,6 +6,14 @@ const indexRouter = Router();
 indexRouter.get("/", indexController.getCategories);
 indexRouter.get("/books", indexController.getBooks);
 indexRouter.get("/book/:id", indexController.getBook);
+indexRouter.get("/delete/author/:id", indexController.deleteAuthor);
+indexRouter.get("/delete/genre/:id", indexController.deleteGenre);
+indexRouter.get("/delete/publisher/:id", indexController.deletePublisher);
 indexRouter.post("/add-author", indexController.addAuthor);
+indexRouter.post("/add-genre", indexController.addGenre);
+indexRouter.post("/add-publisher", indexController.addPublisher);
+indexRouter.post("/update-author", indexController.updateAuthor);
+indexRouter.post("/update-genre", indexController.updateAuthor);
+indexRouter.post("/update-publisher", indexController.updateAuthor);
 
 export default indexRouter;
