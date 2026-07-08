@@ -3,98 +3,101 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/categories.css">
     <title><%= title %></title>
   </head>
   <body>
     <%- include("partials/header") %>
-    <%- include("partials/category", {
-          name: "Authors",
-          shownCategories: shownAuthors,
-          pages: authorsPages,
-          query
-        }) 
-    %>
+    <main>
+      <%- include("partials/category", {
+            name: "Authors",
+            shownCategories: shownAuthors,
+            pages: authorsPages,
+            query
+          }) 
+      %>
 
-    <% if (query.showAuthorForm) { %>
-      <%- include("partials/form", {
+      <% if (query.showAuthorForm) { %>
+        <%- include("partials/form", {
+          action: "add",
+          name: "author",
+          fields: [
+            {name: "name", type: "text"}
+          ]
+        }) %>
+      <% } %>
+
+      <% if (query.showAuthorEditForm) { %>
+        <%- include("partials/form", {
+          action: "update",
+          name: "author",
+          fields: [
+            {name: "name", type: "text"}
+          ]
+        }) %>
+      <% } %>
+
+      <%- include("partials/category", {
+        name: "Genres",
+        shownCategories: shownGenres,
+        pages: genresPages,
+        query
+      })
+      %>
+
+      <% if (query.showGenreForm) { %>
+        <%- include("partials/form", {
+          action: "add",
+          name: "genre",
+          fields: [
+            {name: "name", type: "text"}
+          ]
+        })
+        %>
+      <% } %>
+
+      <% if (query.showGenreEditForm) { %>
+        <%- include("partials/form", {
+          action: "update",
+          name: "genre",
+          fields: [
+            {name: "name", type: "text"}
+          ]
+        })
+        %>
+      <% } %>
+
+      <%- include("partials/category", {
         action: "add",
-        name: "author",
-        fields: [
-          {name: "name", type: "text"}
-        ]
-      }) %>
-    <% } %>
-
-    <% if (query.showAuthorEditForm) { %>
-      <%- include("partials/form", {
-        action: "update",
-        name: "author",
-        fields: [
-          {name: "name", type: "text"}
-        ]
-      }) %>
-    <% } %>
-
-    <%- include("partials/category", {
-      name: "Genres",
-      shownCategories: shownGenres,
-      pages: genresPages,
-      query
-    })
-    %>
-
-    <% if (query.showGenreForm) { %>
-      <%- include("partials/form", {
-        action: "add",
-        name: "genre",
-        fields: [
-          {name: "name", type: "text"}
-        ]
+        name: "Publishers",
+        shownCategories: shownPublishers,
+        pages: publishersPages,
+        query
       })
       %>
-    <% } %>
 
-    <% if (query.showGenreEditForm) { %>
-      <%- include("partials/form", {
-        action: "update",
-        name: "genre",
-        fields: [
-          {name: "name", type: "text"}
-        ]
-      })
-      %>
-    <% } %>
+      <% if (query.showPublisherForm) { %>
+        <%- include("partials/form", {
+          action: "add",
+          name: "publisher",
+          fields: [
+            {name: "name", type: "text"}
+          ]
+        })
+        %>
+      <% } %>
 
-    <%- include("partials/category", {
-      action: "add",
-      name: "Publishers",
-      shownCategories: shownPublishers,
-      pages: publishersPages,
-      query
-    })
-    %>
-
-    <% if (query.showPublisherForm) { %>
-      <%- include("partials/form", {
-        action: "add",
-        name: "publisher",
-        fields: [
-          {name: "name", type: "text"}
-        ]
-      })
-      %>
-    <% } %>
-
-    <% if (query.showPublisherEditForm) { %>
-      <%- include("partials/form", {
-        action: "update",
-        name: "publisher",
-        fields: [
-          {name: "name", type: "text"}
-        ]
-      })
-      %>
-    <% } %>
+      <% if (query.showPublisherEditForm) { %>
+        <%- include("partials/form", {
+          action: "update",
+          name: "publisher",
+          fields: [
+            {name: "name", type: "text"}
+          ]
+        })
+        %>
+      <% } %>
+    </main>
   </body>
 </html>

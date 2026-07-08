@@ -12,7 +12,11 @@
       <a 
         href="/books?<%= categoryUnit + "Id" %>=<%= category.id %>"
       ><%= category.name %></a>
-      <a href="/delete/<%= categoryUnit %>/<%= category.id %>">🗑</a>
+      <a 
+        href="/delete/<%= categoryUnit %>/<%= category.id %>" 
+        onclick="return confirm('Are you sure you want to delete <%= category.name %>')">
+        🗑
+      </a>
       <a href="/?<%= queryStr %>&id=<%= category.id %>&show<%= capitalizedCategoryUnit %>EditForm=true">✎</a>
     </li>
     <% }); %>

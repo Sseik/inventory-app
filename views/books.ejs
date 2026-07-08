@@ -3,15 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css">
     <title><%= title %></title>
   </head>
   <body>
     <%- include("partials/header", { title: "Books Inventory" }) %>
-    <h2><%= title %></h2>
-    <section class="books">
-      <% shownBooks.forEach((book) => { %>
-        <%- include("partials/book", { book }) %>
-      <% }); %>
-    </section>
+    <main>
+      <h2><%= title %></h2>
+      <section class="books">
+        <% shownBooks.forEach((book) => { %>
+          <%- include("partials/book", { book }) %>
+        <% }); %>
+      </section>
+    </main>
   </body>
 </html>

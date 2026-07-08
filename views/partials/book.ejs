@@ -1,6 +1,15 @@
-<a href="/book/<%= book.id %>">
-  <div class="book">
+<div class="book">
+  <a
+    class="delete"
+    href="/delete/book/<%= book.id %>"
+    onclick="
+      return confirm('Are you sure you want to delete <%= book.name %>');
+    "
+  >
+    &#128465;
+  </a>
+  <a href="/book/<%= book.id %>">
     <img src="<%= book.image_url %>" alt="Book's cover" />
     <div class="title"><%= book.name %></div>
-  </div>
-</a>
+  </a>
+</div>

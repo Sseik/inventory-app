@@ -128,6 +128,10 @@ class ItemsStorage {
     await this.pool.query("DELETE FROM publishers WHERE id = $1", [id]);
   }
 
+  async deleteBook(id) {
+    await this.pool.query("DELETE FROM books WHERE id = $1", [id]);
+  }
+
   async updateAuthor(id, name) {
     await this.pool.query(
       `
@@ -137,7 +141,7 @@ class ItemsStorage {
       `,
       [name, id]
     );
-  }  
+  }
 
   async updateGenre(id, name) {
     await this.pool.query(

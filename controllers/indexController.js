@@ -123,6 +123,12 @@ export async function deletePublisher(req, res) {
   res.redirect(req.get("Referrer") || "/");
 }
 
+export async function deleteBook(req, res) {
+  const { id } = req.params;
+  await itemsStorage.deleteBook(id);
+  res.redirect(req.get("Referrer") || "/");
+}
+
 export async function updateAuthor(req, res) {
   const { id } = req.query;
   const { name } = req.body;

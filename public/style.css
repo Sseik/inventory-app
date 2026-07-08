@@ -1,3 +1,23 @@
+:root {
+  --dark-green: #18230f;
+  --dark-green: #0b0909;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--dark-green);
+  max-width: 100vw;
+}
+
 .overlay {
   position: absolute;
   top: 0;
@@ -9,4 +29,87 @@
 
 form {
   position: absolute;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a,
+button {
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+}
+
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.book {
+  position: relative;
+  img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+  }
+
+  & .delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: var(--dark-green);
+    font-size: 1.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    border-radius: 4px;
+
+    &:hover {
+      opacity: 1;
+      box-shadow: #F30000 2px 2px, 
+                  #F30000 -2px -2px,
+                  #F30000 2px -2px,
+                  #F30000 -2px 2px;
+    }
+
+    &:active {
+      background-color: #F30000;
+    }
+  }
+}
+
+main {
+  padding: 0 16px 16px 16px;
+}
+
+header {
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  button {
+    border: none;
+    background: none;
+  }
+}
+
+h2 {
+  margin-bottom: 0.75em;
+}
+
+ul {
+  padding-left: 16px;
+}
+
+.pages {
+  margin-bottom: 1rem;
 }
