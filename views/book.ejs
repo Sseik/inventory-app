@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/book.css">
     <title><%= book.name %></title>
   </head>
   <body>
@@ -12,6 +13,7 @@
       <h2 class="title"><%= book.name %></h2>
       <img src="<%= book.image_url %>" alt="<%= book.name %>'s cover" />
       <section class="details">
+        <h3>Details</h3>
         <div class="authors">
           Authors: <% authors.forEach((author, id) => { %>
           <a href="/books?authorId=<%= author.id %>">
@@ -38,6 +40,7 @@
         </div>
       </section>
       <section class="description">
+        <h3>Description</h3>
         <% book.description.split("\n").forEach((p) => { %>
           <p><%= p %></p>
         <% }); %>
