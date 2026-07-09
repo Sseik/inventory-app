@@ -10,7 +10,12 @@
   <body>
     <%- include("partials/header", { title: "Books Inventory" }) %>
     <main>
-      <h2 class="title"><%= book.name %></h2>
+      <h2 class="title">
+        <%= book.name %>
+        <a href="/book/<%= book.id %>?showNameForm=true">
+          ✎
+        </a>
+      </h2>
       <img src="<%= book.image_url %>" alt="<%= book.name %>'s cover" />
       <section class="details">
         <h3>Details</h3>
@@ -19,32 +24,132 @@
           <a href="/books?authorId=<%= author.id %>">
             <%= author.name %>
           </a>
+          <a 
+            href="/remove/author/<%= book.id %>/<%= author.id %>"
+            onclick="return confirm(
+              'Are you sure you want to remove <%= author.name %>')
+              "
+          >
+            &cross;
+          </a>
           <% if (id !== authors.length - 1) { %>
             <%= ", " %>
+          <% } else { %>
+            <a href="/book/<%= book.id %>?showAuthorForm=true">
+              +
+            </a>
           <% }}); %>
         </div>
         <div class="publisher">Publisher: 
           <a href="/books?publisherId=<%= publisher.id %>">
             <%= publisher.name %>
           </a>
+          <a href="/book/<%= book.id %>?showPublisherForm=true">
+            ✎
+          </a>
         </div>
-        <div class="publishment_year">Publication year: <%= book.year %></div>
+        <div class="publishment_year">
+          Publication year: <%= book.year %>
+          <a href="/book/<%= book.id %>?showYearForm=true">
+            ✎
+          </a>
+        </div>
         <div class="genres">
           Genres: <% genres.forEach((genre, id) => { %>
           <a href="/books?genreId=<%= genre.id %>">
             <%= genre.name %>
           </a>
+          <a 
+            href="/remove/genre/<%= book.id %>/<%= genre.id %>"
+            onclick="return confirm(
+              'Are you sure you want to remove <%= genre.name %>')
+              "
+          >
+            &cross;
+          </a>
           <% if (id !== genres.length - 1) { %>
             <%= ", " %>
+          <% } else { %>
+            <a href="/book/<%= book.id %>?showGenreForm=true">
+              +
+            </a>
           <% }}); %>
         </div>
       </section>
       <section class="description">
-        <h3>Description</h3>
+        <h3>
+          Description
+          <a href="/book/<%= book.id %>?showDescriptionForm=true">
+            ✎
+          </a>
+        </h3>
         <% book.description.split("\n").forEach((p) => { %>
           <p><%= p %></p>
         <% }); %>
+        
       </section>
+      <section class="quantity">
+        <h3>Quantity</h3>
+        <a href="/decrement-quantity/<%= book.id %>">-</a>
+        <span class="quantity"><%= book.quantity %></div>
+        <a href="/increment-quantity/<%= book.id %>">+</a>
+      </section>
+
+      <% if (query.showNameForm) { %>
+        <%- include("partials/form", {
+          action: "edit",
+          name: "name",
+          fields: [
+            { name: "name", type: "text", value: book.name },
+            { name: "bookId", type: "number", invisible: true, value: book.id }
+          ]
+        }) %>
+      <% } else if (query.showDescriptionForm) { %>
+        <%- include("partials/form", {
+          action: "edit",
+          name: "description",
+          fields: [
+            { name: "description", type: "textarea", value: book.description },
+            { name: "bookId", type: "number", invisible: true, value: book.id }
+          ]
+        }) %>
+      <% } else if (query.showAuthorForm) { %>
+        <%- include("partials/form", {
+          action: "edit",
+          name: "authors",
+          fields: [
+            { name: "authors", type: "select", options: authorsOptions, multiple: true },
+            { name: "bookId", type: "number", invisible: true, value: book.id }
+          ]
+        }) %>
+      <% } else if (query.showGenreForm) { %>
+        <%- include("partials/form", {
+          action: "edit",
+          name: "genres",
+          fields: [
+            { name: "genres", type: "select", options: genresOptions, multiple: true },
+            { name: "bookId", type: "number", invisible: true, value: book.id }
+          ]
+        }) %>
+      <% } else if (query.showPublisherForm) { %>
+        <%- include("partials/form", {
+          action: "change",
+          name: "publisher",
+          fields: [
+            { name: "publishers", type: "select", options: publishersOptions },
+            { name: "bookId", type: "number", invisible: true, value: book.id }
+          ]
+        }) %>
+      <% } else if (query.showYearForm) { %>
+        <%- include("partials/form", {
+          action: "change",
+          name: "year",
+          fields: [
+            { name: "year", type: "number" },
+            { name: "bookId", type: "number", invisible: true, value: book.id }
+          ]
+        }) %>
+      <% } %>
     </main>
   </body>
 </html>

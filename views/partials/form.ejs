@@ -3,22 +3,37 @@
 <form action="/<%= action %>-<%= name %>?<%= queryStr %>" method="post">
   <button type="button" onclick="window.history.back()">⨯</button>
   <% fields.forEach((field) => { %>
-  <label for="<%= field.name %>">
-    <%= field.name[0].toUpperCase() + field.name.slice(1) %>
-  </label>
+  <% if (!field.invisible) { %>
+    <label for="<%= field.name %>">
+      <%= field.name[0].toUpperCase() + field.name.slice(1) %>
+    </label>
+  <% } %>
   <% if (field.type === "select") { %>
-    <select name="<%= field.name %>" id="<%= field.name %>">
+    <select 
+      name="<%= field.name %>" 
+      id="<%= field.name %>"
+      <% if (field.multiple) { %> multiple <% } %>
+    >
       <% field.options.forEach((option) => { %>
-        <option value="<%= option.id %>">
+        <option 
+          value="<%= option.id %>"
+          <% if (option.selected) { %> selected <% } %>
+        >
           <%= option.name %>
         </option>
       <% }); %>
     </select>
+  <% } else if (field.type === "textarea") { %>
+    <textarea name="<%= field.name %>" id="<%= field.id %>">
+      <%= field.value || "" %>
+    </textarea>
   <% } else { %>
     <input
       type="<%= field.type %>"
       name="<%= field.name %>"
       id="<%= field.name %>"
+      <% if (field.value) { %> value="<%= field.value %>" <% } %>
+      <% if (field.invisible) { %> style="display: none;" <% } %>
     />
     <% } %>
   <% }); %>

@@ -2,6 +2,16 @@ import itemsStorage from "../storages/itemsStorage.js";
 
 const SHOWN_CATEGORIES = 10;
 
+function buildOptions(rows, checkedRows) {
+  return rows.map((row) => {
+    if (checkedRows.find((r) => r.id === row.id)) {
+      return { id: row.id, name: row.name, selected: true };
+    }
+
+    return { id: row.id, name: row.name };
+  });
+}
+
 export async function getCategories(req, res) {
   const authors = await itemsStorage.getAuthors();
   const genres = await itemsStorage.getGenres();
@@ -97,11 +107,25 @@ export async function getBook(req, res) {
   const authors = await itemsStorage.getBookAuthors(id);
   const publisher = await itemsStorage.getBookPublisher(id);
   const genres = await itemsStorage.getBookGenres(id);
+
+  if (req.query.showAuthorForm) {
+    const allAuthors = await itemsStorage.getAuthors();
+    res.locals.authorsOptions = buildOptions(allAuthors, authors);
+  } else if (req.query.showGenreForm) {
+    const allGenres = await itemsStorage.getGenres();
+    res.locals.genresOptions = buildOptions(allGenres, genres);
+  } else if (req.query.showPublisherForm) {
+    const allPublishers = await itemsStorage.getPublishers();
+    allPublishers.find((p) => p.id === publisher.id).selected = true;
+    res.locals.publishersOptions = allPublishers;
+  }
+
   res.render("book", {
     book,
     authors,
     publisher,
-    genres
+    genres,
+    query: req.query
   });
 }
 

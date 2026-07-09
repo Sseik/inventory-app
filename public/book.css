@@ -1,27 +1,36 @@
 body {
-  max-height: 100vh;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 main {
   height: calc(100vh - 80px);
+  margin: 0 auto;
+  width: max(320px, 70vw);
   display: grid;
   grid-template-areas:
     "h2 h2"
     "book details"
-    "book description";
-  grid-template-rows: auto auto 1fr;
+    "book description"
+    "book quantity";
+  grid-template-rows: auto auto auto 1fr;
   grid-template-columns: minmax(400px, 1fr) 2fr;
-  gap: 8px;
+  column-gap: 32px;
 
   h2 {
     grid-area: h2;
+    margin-bottom: 0;
+    padding-bottom: 0.5em;
+  }
+
+  h3 {
+    padding-bottom: 0.5em;
+    margin-bottom: 0;
   }
 
   img {
     grid-area: book;
-    justify-self: center;
-    height: 100%;
+    width: 100%;
+    aspect-ratio: 2 / 3;
   }
 
   .details {
@@ -31,15 +40,31 @@ main {
   .description {
     grid-area: description;
   }
+
+  .quantity {
+    grid-area: quantity;
+  }
+
+  section {
+    padding-bottom: 16px;
+  }
 }
 
 @media screen and (max-width: 768px) {
   main {
+    height: auto;
+
     grid-template-areas: 
       "h2"
       "book"
       "details"
-      "description";
+      "description"
+      "quantity";
     grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, auto);
+
+    img {
+      margin-bottom: 16px;
+    }
   }
 }
