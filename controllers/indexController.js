@@ -58,10 +58,32 @@ export async function getBooks(req, res) {
 
   const books = await itemsStorage.getBooks({ authorId, genreId, publisherId });
   const shownBooks = books; // I'll slice array later
+  const publishers = await itemsStorage.getPublishers();
+  const authors = await itemsStorage.getAuthors();
+  const genres = await itemsStorage.getGenres();
 
   res.render("books", {
     title: `Books`,
-    shownBooks
+    shownBooks,
+    query: req.query,
+    publishers: publishers.map((publisher) => {
+      if (publisher.id == publisherId) {
+        return { id: publisher.id, name: publisher.name, selected: true };
+      }
+      return { id: publisher.id, name: publisher.name };
+    }),
+    authors: authors.map((author) => {
+      if (author.id == authorId) {
+        return { id: author.id, name: author.name, selected: true };
+      }
+      return { id: author.id, name: author.name };
+    }),
+    genres: genres.map((genre) => {
+      if (genre.id == genreId) {
+        return { id: genre.id, name: genre.name, selected: true };
+      }
+      return { id: genre.id, name: genre.name };
+    })
   });
 }
 

@@ -26,10 +26,60 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: #3331;
+  z-index: -1;
+}
+
+.form-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
 }
 
 form {
-  position: absolute;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: max(320px, 45vw);
+  row-gap: 8px;
+  padding: 32px;
+  background-color: #101010;
+  border-radius: 32px;
+
+  & button:first-of-type {
+    margin-left: auto;
+    aspect-ratio: 1;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  & button[type="submit"] {
+    background-color: #408175;
+    width: 200px;
+    border: none;
+    padding: 16px;
+    border-radius: 16px;
+    margin: auto;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 8px;
+  }
+
+  select[multiple] {
+    height: calc(2rem + 16px);
+  }
+
+  textarea {
+    resize: vertical;
+  }
 }
 
 a {
@@ -53,10 +103,22 @@ button {
 
 .book {
   position: relative;
-  img {
+  img,
+  button {
     width: 100%;
     height: auto;
     aspect-ratio: 2 / 3;
+  }
+
+  button {
+    margin-bottom: 6px;
+    border: none;
+    background-color: #3335;
+    font-size: 2rem;
+
+    &:hover {
+      font-size: 3rem;
+    }
   }
 
   & .delete {
@@ -75,14 +137,15 @@ button {
 
     &:hover {
       opacity: 1;
-      box-shadow: #F30000 2px 2px, 
-                  #F30000 -2px -2px,
-                  #F30000 2px -2px,
-                  #F30000 -2px 2px;
+      box-shadow:
+        #f30000 2px 2px,
+        #f30000 -2px -2px,
+        #f30000 2px -2px,
+        #f30000 -2px 2px;
     }
 
     &:active {
-      background-color: #F30000;
+      background-color: #f30000;
     }
   }
 }
@@ -103,7 +166,8 @@ header {
   }
 }
 
-h2, h3 {
+h2,
+h3 {
   margin-bottom: 0.5em;
 }
 
@@ -118,4 +182,8 @@ ul {
 img {
   max-width: 100%;
   max-height: 100%;
+}
+
+.invisible {
+  display: none;
 }
