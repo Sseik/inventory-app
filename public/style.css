@@ -30,7 +30,7 @@ body {
 }
 
 .form-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -44,12 +44,13 @@ body {
 form {
   display: flex;
   flex-direction: column;
-  height: auto;
+  height: 100%;
   width: max(320px, 45vw);
   row-gap: 8px;
   padding: 32px;
   background-color: #101010;
   border-radius: 32px;
+  
 
   & button:first-of-type {
     margin-left: auto;
@@ -70,11 +71,11 @@ form {
   input,
   select,
   textarea {
-    padding: 8px;
+    padding: 4px;
   }
 
   select[multiple] {
-    height: calc(2rem + 16px);
+    height: calc(2rem + 8px);
   }
 
   textarea {
