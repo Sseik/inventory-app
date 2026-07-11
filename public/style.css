@@ -44,7 +44,7 @@ body {
 form {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  max-height: 100%;
   width: max(320px, 45vw);
   row-gap: 8px;
   padding: 32px;
