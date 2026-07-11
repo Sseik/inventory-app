@@ -123,6 +123,11 @@ export async function addPublisher(req, res) {
   res.redirect(`/?${queryStr}`);
 }
 
+export async function addBook(req, res) {
+  await itemsStorage.addBook(req.body);
+  res.redirect(req.get("Referrer") || "/");
+}
+
 export async function getBook(req, res) {
   const { id } = req.params;
   const book = await itemsStorage.getBook(id);
@@ -221,4 +226,74 @@ export async function updatePublisher(req, res) {
     .reduce((str, key) => str + `&${key}=${queryCopy[key]}`, "")
     .slice(1);
   res.redirect(`/?${queryStr}`);
+}
+
+export async function updateBookName(req, res) {
+  const { bookId, name } = req.body;
+  await itemsStorage.updateBookName(bookId, name);
+  res.redirect(`/book/${bookId}`);
+}
+
+export async function updateBookCover(req, res) {
+  const { bookId, image } = req.body;
+  await itemsStorage.updateBookCover(bookId, image);
+  res.redirect(`/book/${bookId}`);
+}
+
+export async function updateBookAuthors(req, res) {
+  const { bookId, authors } = req.body;
+  await itemsStorage.updateBookAuthors(bookId, authors);
+  res.redirect(`/book/${bookId}`);
+}
+
+export async function updateBookPublisher(req, res) {
+  const { bookId, publisher } = req.body;
+  await itemsStorage.updateBookPublisher(bookId, publisher);
+  res.redirect(`/book/${bookId}`);
+}
+
+export async function updateBookYear(req, res) {
+  const { bookId, year } = req.body;
+  await itemsStorage.updateBookYear(bookId, year);
+  res.redirect(`/book/${bookId}`);
+}
+
+export async function updateBookGenres(req, res) {
+  const { bookId, genres } = req.body;
+  await itemsStorage.updateBookGenres(bookId, genres);
+  res.redirect(`/book/${bookId}`);
+}
+
+export async function updateBookDescription(req, res) {
+  const { bookId, description } = req.body;
+  await itemsStorage.updateBookDescription(bookId, description);
+  res.redirect(`/book/${bookId}`);
+}
+
+export async function decrementBookQuantity(req, res) {
+  const { bookId } = req.params;
+  const book = await itemsStorage.getBook(bookId);
+  if (book.quantity > 0) {
+    await itemsStorage.updateBookQuantity(bookId, book.quantity - 1);
+  }
+  res.redirect(`/book/${bookId}`);
+}
+
+export async function incrementBookQuantity(req, res) {
+  const { bookId } = req.params;
+  const book = await itemsStorage.getBook(bookId);
+  await itemsStorage.updateBookQuantity(bookId, book.quantity + 1);
+  res.redirect(`/book/${bookId}`);
+}
+
+export async function removeBookAuthor(req, res) {
+  const { bookId, authorId } = req.params;
+  await itemsStorage.deleteBookAuthor(bookId, authorId);
+  res.redirect(`/book/${bookId}`);
+}
+
+export async function removeBookGenre(req, res) {
+  const { bookId, genreId } = req.params;
+  await itemsStorage.deleteBookGenre(bookId, genreId);
+  res.redirect(`/book/${bookId}`);
 }

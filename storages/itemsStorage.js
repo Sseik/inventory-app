@@ -116,6 +116,53 @@ class ItemsStorage {
     await this.pool.query("INSERT INTO publishers (name) VALUES ($1)", [name]);
   }
 
+  async addBook({
+    name,
+    year,
+    description,
+    image,
+    quantity,
+    publisher,
+    authors,
+    genres
+  }) {
+    genres = [genres].flat();
+    authors = [authors].flat();
+    const { rows } = await this.pool.query(
+      `
+        INSERT INTO books (name, year, description, image_url, quantity, publisher_id)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING id
+      `,
+      [name, year, description, image, quantity, publisher]
+    );
+    const bookId = rows[0].id;
+    console.log(bookId, authors, genres);
+    await Promise.all(
+      authors.map((id) =>
+        this.pool.query(
+          `
+        INSERT INTO book_authors (book_id, author_id)
+        VALUES ($1, $2)
+      `,
+          [bookId, id]
+        )
+      )
+    );
+
+    await Promise.all(
+      genres.map((id) =>
+        this.pool.query(
+          `
+        INSERT INTO book_genres (book_id, genre_id)
+        VALUES ($1, $2)
+      `,
+          [bookId, id]
+        )
+      )
+    );
+  }
+
   async deleteAuthor(id) {
     await this.pool.query("DELETE FROM authors WHERE id = $1", [id]);
   }
@@ -162,6 +209,88 @@ class ItemsStorage {
         WHERE id = $2
       `,
       [name, id]
+    );
+  }
+
+  async updateBookName(id, name) {
+    await this.pool.query("UPDATE books SET name = $1 WHERE id = $2", [
+      name,
+      id
+    ]);
+  }
+
+  async updateBookCover(id, url) {
+    await this.pool.query("UPDATE books SET image_url = $1 WHERE id = $2", [
+      url,
+      id
+    ]);
+  }
+
+  async updateBookAuthors(id, authorIds) {
+    authorIds = [authorIds].flat();
+    await this.pool.query("DELETE FROM book_authors WHERE book_id = $1", [id]);
+    await Promise.all(
+      authorIds.map((authorId) =>
+        this.pool.query(
+          "INSERT INTO book_authors (book_id, author_id) VALUES ($1, $2)",
+          [id, authorId]
+        )
+      )
+    );
+  }
+
+  async updateBookGenres(id, genreIds) {
+    genreIds = [genreIds].flat();
+    await this.pool.query("DELETE FROM book_genres WHERE book_id = $1", [id]);
+    await Promise.all(
+      genreIds.map((genreId) =>
+        this.pool.query(
+          "INSERT INTO book_genres (book_id, genre_id) VALUES ($1, $2)",
+          [id, genreId]
+        )
+      )
+    );
+  }
+
+  async updateBookPublisher(id, publisherId) {
+    await this.pool.query("UPDATE books SET publisher_id = $1 WHERE id = $2", [
+      publisherId,
+      id
+    ]);
+  }
+
+  async updateBookYear(id, year) {
+    await this.pool.query("UPDATE books SET year = $1 WHERE id = $2", [
+      year,
+      id
+    ]);
+  }
+
+  async updateBookDescription(id, description) {
+    await this.pool.query("UPDATE books SET description = $1 WHERE id = $2", [
+      description,
+      id
+    ]);
+  }
+
+  async updateBookQuantity(id, quantity) {
+    await this.pool.query("UPDATE books SET quantity = $1 WHERE id = $2", [
+      quantity,
+      id
+    ]);
+  }
+
+  async deleteBookGenre(id, genreId) {
+    await this.pool.query(
+      "DELETE FROM book_genres WHERE book_id = $1 AND genre_id = $2",
+      [id, genreId]
+    );
+  }
+
+  async deleteBookAuthor(id, authorId) {
+    await this.pool.query(
+      "DELETE FROM book_authors WHERE book_id = $1 AND author_id = $2",
+      [id, authorId]
     );
   }
 }

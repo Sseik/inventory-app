@@ -17,7 +17,12 @@
           ✎
         </a>
       </h2>
-      <img src="<%= book.image_url %>" alt="<%= book.name %>'s cover" />
+      <div class="cover">
+        <img src="<%= book.image_url %>" alt="<%= book.name %>'s cover" />
+        <a href="/book/<%= book.id %>?showCoverForm=true">
+          ✎
+        </a>
+      </div>
       <section class="details">
         <h3>Details</h3>
         <div class="authors">
@@ -37,7 +42,7 @@
             <%= ", " %>
           <% } else { %>
             <a href="/book/<%= book.id %>?showAuthorForm=true">
-              +
+              ✎
             </a>
           <% }}); %>
         </div>
@@ -72,7 +77,7 @@
             <%= ", " %>
           <% } else { %>
             <a href="/book/<%= book.id %>?showGenreForm=true">
-              +
+              ✎
             </a>
           <% }}); %>
         </div>
@@ -98,7 +103,7 @@
 
       <% if (query.showNameForm) { %>
         <%- include("partials/form", {
-          action: "edit",
+          action: "change",
           name: "name",
           fields: [
             { name: "name", type: "text", value: book.name },
@@ -107,7 +112,7 @@
         }) %>
       <% } else if (query.showDescriptionForm) { %>
         <%- include("partials/form", {
-          action: "edit",
+          action: "change",
           name: "description",
           fields: [
             { name: "description", type: "textarea", value: book.description },
@@ -116,7 +121,7 @@
         }) %>
       <% } else if (query.showAuthorForm) { %>
         <%- include("partials/form", {
-          action: "edit",
+          action: "change",
           name: "authors",
           fields: [
             { name: "authors", type: "select", options: authorsOptions, multiple: true },
@@ -125,7 +130,7 @@
         }) %>
       <% } else if (query.showGenreForm) { %>
         <%- include("partials/form", {
-          action: "edit",
+          action: "change",
           name: "genres",
           fields: [
             { name: "genres", type: "select", options: genresOptions, multiple: true },
@@ -137,7 +142,7 @@
           action: "change",
           name: "publisher",
           fields: [
-            { name: "publishers", type: "select", options: publishersOptions },
+            { name: "publisher", type: "select", options: publishersOptions },
             { name: "bookId", type: "number", invisible: true, value: book.id }
           ]
         }) %>
@@ -147,6 +152,15 @@
           name: "year",
           fields: [
             { name: "year", type: "number" },
+            { name: "bookId", type: "number", invisible: true, value: book.id }
+          ]
+        }) %>
+      <% } else if (query.showCoverForm) { %>
+        <%- include("partials/form", {
+          action: "change",
+          name: "cover",
+          fields: [
+            { name: "image", type: "url" },
             { name: "bookId", type: "number", invisible: true, value: book.id }
           ]
         }) %>
